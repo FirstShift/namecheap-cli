@@ -20,7 +20,7 @@ build-windows:
 	@mkdir -p bin
 	@GOOS=windows GOARCH=amd64 go build -o bin/$(BINARY_NAME).exe pkg/main.go
 
-build-all: build-linux build-macos build-windows
+build-all: build-linux build-linux-arm build-macos build-windows
 
 run: build
 	@./bin/$(BINARY_NAME)

@@ -23,18 +23,16 @@ jobs:
       - name: Verify Binary
         run: file bin/namecheap # Confirm the binary format
 
-      - name: Archive Binary
+      - name: Binary
         run: |
-          cp bin/namecheap namecheap
-          tar -cf namecheap.tar namecheap
-          gzip namecheap.tar
-          file namecheap.tar.gz # Check to confirm it’s gzipped
+          mkdir -p release
+          cp bin/namecheap release/namecheap
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release
-          path: namecheap.tar.gz
+          path: release/namecheap
 
   release:
     needs: build
@@ -68,6 +66,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: namecheap.tar.gz
-          asset_name: namecheap-${{ github.ref_name }}.tar.gz
-          asset_content_type: application/gzip
+          asset_path: namecheap
+          asset_name: namecheap-${{ github.ref_name }}

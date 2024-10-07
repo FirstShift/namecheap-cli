@@ -149,7 +149,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: bin/namecheap-linux-arm64
+          asset_path: bin/namecheap-linux-arm
           asset_name: namecheap-linux-arm64-${{ github.ref_name }}
           asset_content_type: application/octet-stream
 

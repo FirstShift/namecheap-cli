@@ -63,25 +63,25 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: linux-binary
-          path: bin/
+          path: bin/namecheap-linux
 
       - name: Download Linux ARM64 Binary
         uses: actions/download-artifact@v4
         with:
           name: linux-arm64-binary
-          path: bin/
+          path: bin/namecheap-linux-arm64
 
       - name: Download MacOS Binary
         uses: actions/download-artifact@v4
         with:
           name: macos-binary
-          path: bin/
+          path: bin/namecheap-macos
 
       - name: Download Windows Binary
         uses: actions/download-artifact@v4
         with:
           name: windows-binary
-          path: bin/
+          path: bin/namecheap.exe
 
       - name: Create GitHub Release
         id: release

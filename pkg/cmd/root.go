@@ -14,7 +14,7 @@ var (
 	NamecheapClientIP string
 	NamecheapSandbox  bool
 	OutputFormat      string
-	Version           = "1.0.1"
+	Version           = "1.0.2"
 )
 
 // NewBaseCommand creates a new base command

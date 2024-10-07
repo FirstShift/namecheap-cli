@@ -4,3 +4,6 @@ build:
 
 run: build
 	@./bin/namecheap
+
+lint:
+	@golangci-lint run

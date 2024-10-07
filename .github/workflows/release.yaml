@@ -24,13 +24,13 @@ jobs:
         run: |
           mkdir -p release
           cp bin/namecheap release/namecheap
-          tar -czf release.tar.gz -C release namecheap
+          tar -czf release/namecheap.tar.gz -C release namecheap
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release
-          path: release.tar.gz
+          path: release/namecheap.tar.gz
 
   release:
     needs: build
@@ -63,6 +63,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: release.tar.gz
+          asset_path: release/namecheap.tar.gz
           asset_name: namecheap-${{ github.ref_name }}.tar.gz
           asset_content_type: application/gzip

@@ -45,6 +45,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: release
+          path: release # Specify the exact path for downloading the artifact
 
       - name: Create GitHub Release
         id: release

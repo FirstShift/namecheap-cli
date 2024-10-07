@@ -14,6 +14,7 @@ var (
 	NamecheapClientIP string
 	NamecheapSandbox  bool
 	OutputFormat      string
+	Version           = "0.0.1"
 )
 
 // NewBaseCommand creates a new base command
@@ -34,15 +35,28 @@ func NewBaseCommand() *cobra.Command {
 	cmd.PersistentFlags().BoolVarP(&NamecheapSandbox, "sandbox", "s", false, "Use Namecheap Sandbox. Can also be set via NAMECHEAP_SANDBOX")
 	cmd.PersistentFlags().StringVarP(&OutputFormat, "output", "o", "text", "Output format (table, json, text)")
 
+	// Version command
+	versionCmd := VersionCmd()
 	// DNS Commands
 	createDnsCmd := dns.NewCreateDNSRecorcCmd()
 	deleteDnsCmd := dns.NewDeleteDNSRecorcCmd()
 	listDnsCmd := dns.ListDNSRecordsCmd()
 	baseDnsCmd := dns.NewDNSCommand([]*cobra.Command{createDnsCmd, deleteDnsCmd, listDnsCmd})
 
+	cmd.AddCommand(versionCmd)
 	cmd.AddCommand(baseDnsCmd)
 
 	return cmd
+}
+
+func VersionCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "version",
+		Short: "Print the version number of Namecheap CLI",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("Namecheap CLI v" + Version)
+		},
+	}
 }
 
 // init initializes the command

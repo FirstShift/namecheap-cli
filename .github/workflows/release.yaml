@@ -32,11 +32,11 @@ jobs:
           name: linux-binary
           path: bin/namecheap-linux
 
-      - name: Upload Linux ARM64 Binary
+      - name: Upload Linux ARM Binary
         uses: actions/upload-artifact@v4
         with:
-          name: linux-arm64-binary
-          path: bin/namecheap-linux-arm64
+          name: linux-arm-binary
+          path: bin/namecheap-linux-arm
 
       - name: Upload MacOS Binary
         uses: actions/upload-artifact@v4
@@ -68,8 +68,8 @@ jobs:
       - name: Download Linux ARM64 Binary
         uses: actions/download-artifact@v4
         with:
-          name: linux-arm64-binary
-          path: bin/namecheap-linux-arm64
+          name: linux-arm-binary
+          path: bin/namecheap-linux-arm
 
       - name: Download MacOS Binary
         uses: actions/download-artifact@v4
@@ -110,7 +110,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: bin/namecheap-linux-arm64
+          asset_path: bin/namecheap-linux-arm
           asset_name: namecheap-linux-arm64-${{ github.ref_name }}
           asset_content_type: application/octet-stream
 

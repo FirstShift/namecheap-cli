@@ -32,12 +32,12 @@ jobs:
 
       - name: Set execute permissions
         run: |
-          chmod +x bin/namecheap-linux bin/namecheap-linux-arm64 bin/namecheap-macos
+          chmod +x bin/namecheap-linux bin/namecheap-linux-arm bin/namecheap-macos
 
       - name: Generate checksums
         run: |
           cd bin
-          sha256sum namecheap-linux namecheap-linux-arm64 namecheap-macos namecheap.exe > checksums.txt
+          sha256sum namecheap-linux namecheap-linux-arm namecheap-macos namecheap.exe > checksums.txt
 
       - name: Verify Binaries
         run: |

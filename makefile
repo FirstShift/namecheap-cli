@@ -1,9 +1,32 @@
+BINARY_NAME=namecheap
+
 build:
 	@mkdir -p bin
-	@go build -o bin/namecheap pkg/main.go
+	@go build -o bin/$(BINARY_NAME) pkg/main.go
+
+build-linux:
+	@mkdir -p bin
+	@GOOS=linux GOARCH=amd64 go build -o bin/$(BINARY_NAME)-linux pkg/main.go
+
+build-linux-arm:
+	@mkdir -p bin
+	@GOOS=linux GOARCH=arm64 go build -o bin/$(BINARY_NAME)-linux-arm pkg/main.go
+
+build-macos:
+	@mkdir -p bin
+	@GOOS=darwin GOARCH=amd64 go build -o bin/$(BINARY_NAME)-macos pkg/main.go
+
+build-windows:
+	@mkdir -p bin
+	@GOOS=windows GOARCH=amd64 go build -o bin/$(BINARY_NAME).exe pkg/main.go
+
+build-all: build-linux build-macos build-windows
 
 run: build
-	@./bin/namecheap
+	@./bin/$(BINARY_NAME)
 
-lint:
-	@golangci-lint run
+clean:
+	@rm -rf bin
+
+deps:
+	@go mod tidy

@@ -18,21 +18,37 @@ jobs:
           go-version: 1.21.5
 
       - name: Build
-        run: make build
-
-      - name: Verify Binary
-        run: file bin/namecheap # Confirm the binary format
-
-      - name: Binary
         run: |
-          mkdir -p release
-          cp bin/namecheap release/namecheap
+          echo "Building binaries for all platforms"
+          make build-all
 
-      - name: Upload Artifact
+      - name: Verify Binaries
+        run: |
+          ls -l bin/
+
+      - name: Upload Linux Binary
         uses: actions/upload-artifact@v4
         with:
-          name: release
-          path: release/namecheap
+          name: linux-binary
+          path: bin/namecheap-linux
+
+      - name: Upload Linux ARM64 Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-arm64-binary
+          path: bin/namecheap-linux-arm64
+
+      - name: Upload MacOS Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-binary
+          path: bin/namecheap-macos
+
+      - name: Upload Windows Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binary
+          path: bin/namecheap.exe
 
   release:
     needs: build
@@ -43,11 +59,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Artifact
+      - name: Download Linux Binary
         uses: actions/download-artifact@v4
         with:
-          name: release
-          path: . # Download to the current directory
+          name: linux-binary
+          path: bin/
+
+      - name: Download Linux ARM64 Binary
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-arm64-binary
+          path: bin/
+
+      - name: Download MacOS Binary
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-binary
+          path: bin/
+
+      - name: Download Windows Binary
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-binary
+          path: bin/
 
       - name: Create GitHub Release
         id: release
@@ -60,12 +94,42 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Release Asset
+      - name: Upload Linux Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: namecheap
-          asset_name: namecheap-${{ github.ref_name }}
+          asset_path: bin/namecheap-linux
+          asset_name: namecheap-linux-${{ github.ref_name }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux ARM64 Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: bin/namecheap-linux-arm64
+          asset_name: namecheap-linux-arm64-${{ github.ref_name }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload MacOS Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: bin/namecheap-macos
+          asset_name: namecheap-macos-${{ github.ref_name }}
+          asset_content_type: application/octet-stream
+
+      - name: Upload Windows Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: bin/namecheap.exe
+          asset_name: namecheap-windows-${{ github.ref_name }}
           asset_content_type: application/octet-stream

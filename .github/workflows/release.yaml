@@ -28,7 +28,6 @@ jobs:
           cp bin/namecheap namecheap
           tar -cf namecheap.tar namecheap
           gzip namecheap.tar
-          mv namecheap.tar.gz namecheap.tar.gz
           file namecheap.tar.gz # Check to confirm it’s gzipped
 
       - name: Upload Artifact
